@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import styles from '../styles/nosotros.module.css'
+import Image from "next/image";
+import styles from "../styles/nosotros.module.css";
 import Layout from "../components/layout";
 
 export default function Nosotros() {
@@ -12,7 +12,12 @@ export default function Nosotros() {
         <h2 className="heading">Nosotros</h2>
 
         <div className={styles.contenido}>
-          <Image src='/img/nosotros.jpg' width={1000} height={800} alt='Imagen sobre nosotros'/>
+          <Image
+            src="/img/nosotros.jpg"
+            width={1000}
+            height={800}
+            alt="Imagen sobre nosotros"
+          />
 
           <div>
             <p>

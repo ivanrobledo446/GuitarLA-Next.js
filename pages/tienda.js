@@ -1,8 +1,8 @@
-import Guitarra from '../components/guitarra'
-import Layout from '../components/layout'
-import styles from '../styles/grid.module.css'
+import Guitarra from "../components/guitarra";
+import Layout from "../components/layout";
+import styles from "../styles/grid.module.css";
 
-export default function Tienda({guitarras}) {
+export default function Tienda({ guitarras }) {
   return (
     <Layout
       title={"Tienda Virtual"}
@@ -16,26 +16,26 @@ export default function Tienda({guitarras}) {
             <Guitarra key={guitarra.id} guitarra={guitarra.attributes} />
           ))}
         </div>
-
       </main>
     </Layout>
   );
 }
 
-// MANERA SSG
-export async function getServerSideProps(){
-	const respuesta = await fetch(`${process.env.API_URL}/guitarras?populate=imagen`)
-	const {data: guitarras} = await respuesta.json()
+// MANERA SSR
+export async function getServerSideProps() {
+  const respuesta = await fetch(
+    `${process.env.API_URL}/guitarras?populate=imagen`,
+  );
+  const { data: guitarras } = await respuesta.json();
 
-	return{
-		props:{
-			guitarras
-		}
-	}
+  return {
+    props: {
+      guitarras,
+    },
+  };
 }
 
-
-/* MANERA SSR
+/* MANERA SSG
 export async function getStaticProps() {
   const respuesta = await fetch(
     `${process.env.API_URL}/guitarras?populate=imagen`

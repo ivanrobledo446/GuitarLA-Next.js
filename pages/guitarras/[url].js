@@ -1,19 +1,18 @@
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState } from "react";
+import Image from "next/image";
 import Layout from "../../components/layout";
-import styles from '../../styles/guitarras.module.css'
+import styles from "../../styles/guitarras.module.css";
 
-export default function Producto({guitarra, agregarCarrito}) {
+export default function Producto({ guitarra, agregarCarrito }) {
+  const [cantidad, setCantidad] = useState(0);
+  const { nombre, descripcion, imagen, precio } = guitarra[0].attributes;
 
-  const [cantidad, setCantidad] = useState(0)
-  const { nombre, descripcion, imagen, precio } = guitarra[0].attributes
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handeSubmit = e => {
-    e.preventDefault()
-
-    if(cantidad < 1){
-      alert('Cantidad no válida')
-      return
+    if (cantidad < 1) {
+      alert("Cantidad no válida");
+      return;
     }
 
     // Construir un objeto para almacenarlo en el LS
@@ -22,17 +21,15 @@ export default function Producto({guitarra, agregarCarrito}) {
       imagen: imagen.data.attributes.url,
       nombre,
       precio,
-      cantidad
-    }
-    
+      cantidad,
+    };
+
     // Pasando la información
-    agregarCarrito(guitarraSeleccionada)
-  }
+    agregarCarrito(guitarraSeleccionada);
+  };
 
   return (
-    <Layout
-      title={`Guitarra ${nombre}`}
-    >
+    <Layout title={`Guitarra ${nombre}`}>
       <div>
         <div className={styles.guitarra}>
           <Image
@@ -49,13 +46,10 @@ export default function Producto({guitarra, agregarCarrito}) {
             </p>
             <p className={styles.precio}>${precio}</p>
 
-            <form
-              className={styles.formulario}
-              onSubmit={handeSubmit}
-            >
+            <form className={styles.formulario} onSubmit={handleSubmit}>
               <label htmlFor="cantidad">Cantidad:</label>
               <select
-                onChange={e => setCantidad(Number(e.target.value))}
+                onChange={(e) => setCantidad(Number(e.target.value))}
                 id="cantidad"
               >
                 <option value="0">-- Seleccione --</option>
@@ -66,10 +60,7 @@ export default function Producto({guitarra, agregarCarrito}) {
                 <option value="5">5</option>
               </select>
 
-              <input
-                type='submit'
-                value='Agregar al carrito' 
-              />
+              <input type="submit" value="Agregar al carrito" />
             </form>
           </div>
         </div>
@@ -78,23 +69,37 @@ export default function Producto({guitarra, agregarCarrito}) {
   );
 }
 
-export async function getStaticPaths(){
+export async function getStaticPaths() {
   const respuesta = await fetch(`${process.env.API_URL}/guitarras`);
-  const { data } = await respuesta.json()
+  const { data } = await respuesta.json();
 
-  const paths = data.map(guitarra => ({
+  const paths = data.map((guitarra) => ({
     params: {
-      url: guitarra.attributes.url
-    }
-  }))
+      url: guitarra.attributes.url,
+    },
+  }));
 
-  return{
+  return {
     paths,
-    fallback: false
-  }
+    fallback: false,
+  };
 }
 
 export async function getStaticProps({ params: { url } }) {
+  const respuesta = await fetch(
+    `${process.env.API_URL}/guitarras?filters[url]=${url}&populate=imagen`,
+  );
+  const { data: guitarra } = await respuesta.json();
+
+  return {
+    props: {
+      guitarra,
+    },
+  };
+}
+
+/*
+export async function getServerSideProps({ params: { url } }) {
   const respuesta = await fetch(
     `${process.env.API_URL}/guitarras?filters[url]=${url}&populate=imagen`
   );
@@ -102,18 +107,8 @@ export async function getStaticProps({ params: { url } }) {
 
   return {
     props: {
-      guitarra
+      guitarra,
     },
   };
 }
-
-/* export async function getServerSideProps({query: { url }}){
-  const respuesta = await fetch(`${process.env.API_URL}/guitarras?filters[url]=${url}&populate=imagen`);
-  const { data: guitarra } = await respuesta.json()
-
-  return{
-    props: {
-      guitarra
-    }
-  }
-} */
+*/

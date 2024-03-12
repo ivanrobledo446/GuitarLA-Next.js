@@ -1,17 +1,17 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import styles from '../styles/header.module.css'
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import styles from "../styles/header.module.css";
 
 export default function Header() {
+  
+  const router = useRouter(); // Para poder conseguir el pathname ya que en el mismo te muestra información de la página.
 
-	const router = useRouter()
-
-	return (
+  return (
     <header className={styles.header}>
       <div className={`contenedor ${styles.barra}`}>
         <Link href="/">
-          <Image alt="logo" src="/img/logo.svg" width={300} height={40} />
+          <Image alt="logo" src="/img/logo.svg"/>
         </Link>
 
         <nav className={styles.navegacion}>
@@ -47,7 +47,12 @@ export default function Header() {
             className={router.pathname === "/carrito" ? styles.active : ""}
             href="/carrito"
           >
-            <Image src='/img/carrito.png' width={30} height={25} alt='imagen carrito' />
+            <Image
+              src="/img/carrito.png"
+              width={30}
+              height={25}
+              alt="imagen carrito"
+            />
           </Link>
         </nav>
       </div>

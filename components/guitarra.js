@@ -8,7 +8,7 @@ export default function Guitarra({ guitarra }) {
   return (
     <div className={styles.guitarra}>
       <Image
-        src={imagen.data.attributes.formats.medium.url}   
+        src={imagen.data.attributes.formats.medium.url}
         width={600}
         height={400}
         alt={`Imagen guitarra ${nombre}`}

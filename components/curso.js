@@ -1,7 +1,7 @@
 import styles from '../styles/curso.module.css'
 
 export default function Curso({curso}) {
-	console.log(curso)
+
 	const { contenido, imagen, titulo } = curso.attributes
 
   return (

@@ -2,19 +2,21 @@ import { useState, useEffect } from "react";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-
-  const carritoLS = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('carrito')) ?? [] : []
+  const carritoLS =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("carrito")) ?? []
+      : [];
 
   const [carrito, setCarrito] = useState(carritoLS);
-  const [paginaLista, setPaginaLista] = useState(false)
+  const [paginaLista, setPaginaLista] = useState(false);
 
   useEffect(() => {
-    setPaginaLista(true)
-  }, [])
+    setPaginaLista(true);
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem('carrito', JSON.stringify(carrito))
-  }, [carrito])   
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }, [carrito]);
 
   const agregarCarrito = (guitarra) => {
     // Comprobar si la guitarra ya esta en el carrito...
@@ -43,6 +45,7 @@ function MyApp({ Component, pageProps }) {
   };
 
   const actualizarCantidad = (guitarra) => {
+    // Iterar para actualizar la cantidad
     const carritoActualizado = carrito.map((guitarraState) => {
       if (guitarraState.id === guitarra.id) {
         guitarraState.cantidad = parseInt(guitarra.cantidad);
@@ -61,7 +64,7 @@ function MyApp({ Component, pageProps }) {
       eliminarProducto={eliminarProducto}
       actualizarCantidad={actualizarCantidad}
     />
-    ) : null;
+  ) : null;
 }
 
 export default MyApp;
